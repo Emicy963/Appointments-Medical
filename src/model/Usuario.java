@@ -7,13 +7,15 @@ public class Usuario {
     private String email;
     private String senha;
     private boolean admin;
+    private byte[] picture;
     
-    public Usuario(int id, String nome, String email, String senha, boolean admin){
+    public Usuario(int id, String nome, String email, String senha, boolean admin, byte[] picture){
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.admin = admin;
+        this.picture = picture;
     }
     
     public int getId(){ return id; }
@@ -30,4 +32,7 @@ public class Usuario {
     
     public boolean isAdmin(){ return admin; }
     public void setAdmin(boolean admin){ this.admin = admin; }
+    
+    public byte[] getPicture(){ return picture; }
+    public void setPicture(byte[] picture){this.picture = picture; }
 }

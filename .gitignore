@@ -38,21 +38,11 @@ nb-configuration.xml
 .classpath
 .project
 
-# Arquivos de configuração do Maven (se estiver usando)
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-
 # Arquivos de banco de dados
 *.db
 *.sql
 *.sqlite
+DataBaseConnection.java
 
 # Arquivos de configuração local
 src/config/database.properties
