@@ -4,14 +4,30 @@
  * and open the template in the editor.
  */
 package view;
-
+     
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import controller.AppointmentController;
 import controller.UsuarioController;
+import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Appointment;
 import model.Usuario;
@@ -45,8 +61,22 @@ public class TelaUsuario extends javax.swing.JFrame {
         }
     }
     
-    
-
+    public void configurarFoto(){
+        lbFoto.setBorder(BorderFactory.createEtchedBorder());
+        if (usuarioLogado.getPicture() != null){
+            try {
+                ImageIcon imageIcon = new ImageIcon(usuarioLogado.getPicture()
+                );
+                Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                lbFoto.setIcon(new ImageIcon(image));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Erro ao Carregar a imagem: "  + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +103,11 @@ public class TelaUsuario extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtObs = new javax.swing.JTextField();
         btnLogout = new javax.swing.JButton();
+        txtSearh = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        lbFoto = new javax.swing.JLabel();
+        btnPicture = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(730, 604));
@@ -168,72 +203,119 @@ public class TelaUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnSearch.setText("Pesquisar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Imprimir Relatório");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnPicture.setText("Add Fotografia");
+        btnPicture.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPictureActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnMarcar)
                         .addGap(82, 82, 82)
                         .addComponent(btnVer)
                         .addGap(57, 57, 57)
                         .addComponent(btnEditar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSearh, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbPro, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtObs))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btn_exit)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(499, 499, 499)
-                                .addComponent(btnApagar))))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(547, 547, 547)
-                        .addComponent(btnLogout)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_exit))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(499, 499, 499)
+                        .addComponent(btnApagar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnPicture)
+                        .addGap(65, 65, 65)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbPro, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(btnLogout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_exit)
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                    .addComponent(txtSearh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogout))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_exit)
+                    .addComponent(btnSearch))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(33, 33, 33)
+                        .addGap(98, 98, 98)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(cbTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnPicture)
+                                        .addGap(11, 11, 11)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(cbPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(cbPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMarcar)
@@ -242,7 +324,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                     .addComponent(btnApagar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105))
+                .addGap(56, 56, 56))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -258,7 +340,7 @@ public class TelaUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -524,7 +606,6 @@ public class TelaUsuario extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
-            // Tratamento genérico de exceções
             JOptionPane.showMessageDialog(null,
                 "Erro ao Marcar Consulta: " + e.getMessage(),
                 "Erro na Marcação",
@@ -550,6 +631,146 @@ public class TelaUsuario extends javax.swing.JFrame {
         dispose();
         new Login().setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String termoPesquisa = txtSearh.getText().trim();
+    
+        if (termoPesquisa.isEmpty()) {
+            btnVerActionPerformed(evt);
+            return;
+        }
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) tbConsulta.getModel();
+            model.setRowCount(0);
+
+            AppointmentController consultaController = new AppointmentController();
+            List<Appointment> consultas = consultaController.pesquisarConsultas(
+                usuarioLogado.getId(), 
+                termoPesquisa
+            );
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+            for (Appointment consulta : consultas) {
+                String profissional = "";
+                switch(consulta.getProfissionalId()) {
+                    case 1: profissional = "Dr. Raúl"; break;
+                    case 2: profissional = "Dra. Carla"; break;
+                    case 3: profissional = "Dra. Paula"; break;
+                    case 4: profissional = "Dr. Antonio"; break;
+                }
+
+                model.addRow(new Object[]{
+                    usuarioLogado.getNome(),
+                    profissional,
+                    consulta.getTipoConsulta(),
+                    consulta.getDataHora().format(formatter),
+                    consulta.getObservacao(),
+                    consulta.getId()
+                });
+            }
+
+            if (consultas.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                    "Nenhuma consulta encontrada com o termo: " + termoPesquisa,
+                    "Pesquisa",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                "Erro ao pesquisar consultas: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnPictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPictureActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Imagens", 
+                "jpg", "jpeg", "png", "gif"));
+        
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            try {
+                File file = fileChooser.getSelectedFile();
+                byte[] picture = Files. readAllBytes(file.toPath());
+                
+                UsuarioController usuarioController = new UsuarioController();
+                usuarioController.atualizarFoto(usuarioLogado.getId(), picture);
+                
+                usuarioLogado.setPicture(picture);
+                configurarFoto();
+                
+                JOptionPane.showMessageDialog(this, 
+                        "Foto atualizada com sucesso!",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);                        
+            } catch (IOException e){
+                JOptionPane.showMessageDialog(null, 
+                        "Erro ao carregar a foto: "+e.getMessage(),
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnPictureActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
+        fileChooser.setSelectedFile(new File("relatorio_consultas.pdf"));
+        
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (!file.getName().toLowerCase().endsWith(".pdf")) {
+                file = new File(file.getAbsolutePath() + ".pdf");
+            }
+            
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(file));
+            document.open();
+            
+            // Adiciona título
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Paragraph title = new Paragraph("Relatório de Consultas", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(new Paragraph("\n"));
+            
+            // Cria tabela
+            PdfPTable table = new PdfPTable(5); // 5 colunas
+            table.setWidthPercentage(100);
+            
+            // Adiciona cabeçalhos
+            table.addCell("Paciente");
+            table.addCell("Profissional");
+            table.addCell("Tipo");
+            table.addCell("Data/Hora");
+            table.addCell("Observações");
+            
+            // Adiciona dados
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            for (int i = 0; i < tbConsulta.getRowCount(); i++) {
+                for (int j = 0; j < 5; j++) { // Primeiras 5 colunas (exclui o ID)
+                    table.addCell(tbConsulta.getValueAt(i, j).toString());
+                }
+            }
+            
+            document.add(table);
+            document.close();
+            
+            JOptionPane.showMessageDialog(this,
+                "Relatório gerado com sucesso!\nSalvo em: " + file.getAbsolutePath(),
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Erro ao gerar relatório: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,18 +812,23 @@ public class TelaUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMarcar;
+    private javax.swing.JButton btnPicture;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnVer;
     private javax.swing.JButton btn_exit;
     private javax.swing.JComboBox<String> cbPro;
     private javax.swing.JComboBox<String> cbTipoConsulta;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbFoto;
     private javax.swing.JTable tbConsulta;
     private javax.swing.JTextField txtData;
     private javax.swing.JTextField txtObs;
+    private javax.swing.JTextField txtSearh;
     // End of variables declaration//GEN-END:variables
 }

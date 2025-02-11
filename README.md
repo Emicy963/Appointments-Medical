@@ -11,6 +11,13 @@ Sistema desktop desenvolvido em Java para gerenciamento de consultas médicas, p
 - Cancelamento de consultas
 - Suporte a diferentes tipos de consultas e profissionais
 
+### Novas funcionalidades:
+
+- Armazenar as informações em um Banco de Dados
+- Suporta fotos de perfil para cada usuário
+- Sistema de pesquisa de consulta
+- Gerar relatórios de consulta
+
 ## Estrutura do Projeto
 
 ```
@@ -24,6 +31,7 @@ src/
 │   └── Appointment.java   # Modelo de consulta
 └── controller/
     ├── UsuarioController.java    # Controle de usuários
+    ├── DataBaseConnection.java   # Controle de conexão com Base de Dados(criar caso de clonagem)
     └── AppointmentController.java # Controle de consultas
 ```
 
@@ -32,11 +40,13 @@ src/
 - Java
 - Swing (Interface gráfica)
 - NetBeans IDE
+- MySQL Workbeanch
 
 ## Pré-requisitos
 
 - JDK 8 ou superior
 - NetBeans IDE (recomendado)
+- MySQL (ou qualquer outro banco de dados relacional)
 
 ## Como Executar
 
