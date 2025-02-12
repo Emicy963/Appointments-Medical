@@ -105,7 +105,7 @@ public class TelaUsuario extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         txtSearh = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         lbFoto = new javax.swing.JLabel();
         btnPicture = new javax.swing.JButton();
 
@@ -210,10 +210,10 @@ public class TelaUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Imprimir Relatório");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRelatorio.setText("Imprimir Relatório");
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRelatorioActionPerformed(evt);
             }
         });
 
@@ -246,7 +246,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtObs, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,7 +312,7 @@ public class TelaUsuario extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))))
+                                .addComponent(btnRelatorio))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(lbFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -714,63 +714,63 @@ public class TelaUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPictureActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
         try {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
-        fileChooser.setSelectedFile(new File("relatorio_consultas.pdf"));
-        
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            if (!file.getName().toLowerCase().endsWith(".pdf")) {
-                file = new File(file.getAbsolutePath() + ".pdf");
-            }
-            
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(file));
-            document.open();
-            
-            // Adiciona título
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-            Paragraph title = new Paragraph("Relatório de Consultas", titleFont);
-            title.setAlignment(Element.ALIGN_CENTER);
-            document.add(title);
-            document.add(new Paragraph("\n"));
-            
-            // Cria tabela
-            PdfPTable table = new PdfPTable(5); // 5 colunas
-            table.setWidthPercentage(100);
-            
-            // Adiciona cabeçalhos
-            table.addCell("Paciente");
-            table.addCell("Profissional");
-            table.addCell("Tipo");
-            table.addCell("Data/Hora");
-            table.addCell("Observações");
-            
-            // Adiciona dados
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            for (int i = 0; i < tbConsulta.getRowCount(); i++) {
-                for (int j = 0; j < 5; j++) { // Primeiras 5 colunas (exclui o ID)
-                    table.addCell(tbConsulta.getValueAt(i, j).toString());
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
+            fileChooser.setSelectedFile(new File("relatorio_consultas.pdf"));
+
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                if (!file.getName().toLowerCase().endsWith(".pdf")) {
+                    file = new File(file.getAbsolutePath() + ".pdf");
                 }
-            }
-            
-            document.add(table);
-            document.close();
-            
-            JOptionPane.showMessageDialog(this,
-                "Relatório gerado com sucesso!\nSalvo em: " + file.getAbsolutePath(),
-                "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Erro ao gerar relatório: " + e.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+
+                // Adiciona título
+                Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+                Paragraph title = new Paragraph("Relatório de Consultas", titleFont);
+                title.setAlignment(Element.ALIGN_CENTER);
+                document.add(title);
+                document.add(new Paragraph("\n"));
+
+                // Cria tabela
+                PdfPTable table = new PdfPTable(5); // 5 colunas
+                table.setWidthPercentage(100);
+
+                // Adiciona cabeçalhos
+                table.addCell("Paciente");
+                table.addCell("Profissional");
+                table.addCell("Tipo");
+                table.addCell("Data/Hora");
+                table.addCell("Observações");
+
+                // Adiciona dados
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                for (int i = 0; i < tbConsulta.getRowCount(); i++) {
+                    for (int j = 0; j < 5; j++) { // Primeiras 5 colunas (exclui o ID)
+                        table.addCell(tbConsulta.getValueAt(i, j).toString());
+                    }
+                }
+
+                document.add(table);
+                document.close();
+
+                JOptionPane.showMessageDialog(this,
+                    "Relatório gerado com sucesso!\nSalvo em: " + file.getAbsolutePath(),
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Erro ao gerar relatório: " + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -813,12 +813,12 @@ public class TelaUsuario extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMarcar;
     private javax.swing.JButton btnPicture;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnVer;
     private javax.swing.JButton btn_exit;
     private javax.swing.JComboBox<String> cbPro;
     private javax.swing.JComboBox<String> cbTipoConsulta;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

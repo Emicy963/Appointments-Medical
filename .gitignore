@@ -42,6 +42,7 @@ nb-configuration.xml
 *.db
 *.sql
 *.sqlite
+*.form
 DataBaseConnection.java
 
 # Arquivos de configuração local

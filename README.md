@@ -30,8 +30,9 @@ src/
 │   ├── Usuario.java       # Modelo de usuário
 │   └── Appointment.java   # Modelo de consulta
 └── controller/
-    ├── UsuarioController.java    # Controle de usuários
-    ├── DataBaseConnection.java   # Controle de conexão com Base de Dados(criar caso de clonagem)
+    ├── UsuarioController.java     # Controle de usuários
+    ├── Authentication.java        # Autenticação de usuários
+    ├── DataBaseConnection.java    # Controle de conexão com Base de Dados(criar caso de clonagem)
     └── AppointmentController.java # Controle de consultas
 ```
 
@@ -47,12 +48,13 @@ src/
 - JDK 8 ou superior
 - NetBeans IDE (recomendado)
 - MySQL (ou qualquer outro banco de dados relacional)
+- itext (5.2.0 ou superior)
 
 ## Como Executar
 
 1. Clone este repositório
 2. Abra o projeto no NetBeans IDE
-3. Configure a conexão com o banco de dados em `src/config/database.properties` (se aplicável)
+3. Configure a conexão com o banco de dados em `src/controller/DataBaseConnection.java` (se aplicável)
 4. Execute a classe `src/AgendamentoConsulta/AgendamentoConsulta.java`
 
 ## Funcionalidades por Tela
@@ -74,6 +76,9 @@ src/
 - Visualização de consultas existentes
 - Edição de consultas
 - Cancelamento de consultas
+- Adicionar foto de perfil
+- Pesquisar consultas marcadas
+- Imprimir relatório para cada paciente
 - Logout do sistema
 
 ## Tipos de Consultas Disponíveis
@@ -97,7 +102,7 @@ Anderson Cafurica
 
 ## Licença
 
-Este projeto está sob a licença [MIT License
+Este projeto está sob a licença {License}[MIT License
 
 Copyright (c) 2024 Anderson Cafurica
 

@@ -8,13 +8,14 @@ public class UsuarioController {
     private static Usuario usuarioLogado = null;
     
     public boolean fazerLogin(String email, String senha) {
+        String senhaEncriptada = AuthenticationController.encryptPassword(senha);
         String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
         
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, email);
-            stmt.setString(2, senha);
+            stmt.setString(2, senhaEncriptada);
             
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -51,6 +52,7 @@ public class UsuarioController {
             throw new IllegalArgumentException("Email não pode ser vazio");
         }
         
+        String senhaEncriptada = AuthenticationController.encryptPassword(senha);
         String sql = "INSERT INTO usuarios (nome, email, senha, admin) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = DataBaseConnection.getConnection();
@@ -58,7 +60,7 @@ public class UsuarioController {
             
             stmt.setString(1, nome);
             stmt.setString(2, email);
-            stmt.setString(3, senha);
+            stmt.setString(3, senhaEncriptada);
             stmt.setBoolean(4, admin);
             
             int affectedRows = stmt.executeUpdate();
@@ -73,7 +75,7 @@ public class UsuarioController {
                         generatedKeys.getInt(1),
                         nome,
                         email,
-                        senha,
+                        senhaEncriptada,
                         admin,
                         null
                     );
